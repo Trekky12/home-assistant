@@ -1,15 +1,14 @@
 """Tests for the Withings component."""
 from asynctest import MagicMock
-
 import pytest
 from withings_api import WithingsApi
-from withings_api.common import UnauthorizedException, TimeoutException
+from withings_api.common import TimeoutException, UnauthorizedException
 
-from homeassistant.exceptions import PlatformNotReady
 from homeassistant.components.withings.common import (
     NotAuthenticatedError,
     WithingsDataManager,
 )
+from homeassistant.exceptions import PlatformNotReady
 
 
 @pytest.fixture(name="withings_api")
@@ -75,7 +74,7 @@ async def test_data_manager_call(data_manager: WithingsDataManager) -> None:
 
 
 async def test_data_manager_call_throttle_enabled(
-    data_manager: WithingsDataManager
+    data_manager: WithingsDataManager,
 ) -> None:
     """Test method."""
     hello_func = MagicMock(return_value="HELLO2")
@@ -90,7 +89,7 @@ async def test_data_manager_call_throttle_enabled(
 
 
 async def test_data_manager_call_throttle_disabled(
-    data_manager: WithingsDataManager
+    data_manager: WithingsDataManager,
 ) -> None:
     """Test method."""
     hello_func = MagicMock(return_value="HELLO2")

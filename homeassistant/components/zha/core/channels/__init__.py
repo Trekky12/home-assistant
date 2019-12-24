@@ -17,7 +17,6 @@ from homeassistant.core import callback
 from homeassistant.helpers.dispatcher import async_dispatcher_send
 
 from ..const import (
-    CHANNEL_ATTRIBUTE,
     CHANNEL_EVENT_RELAY,
     CHANNEL_ZDO,
     REPORT_CONFIG_DEFAULT,
@@ -280,7 +279,6 @@ class ZigbeeChannel(LogMixin):
 class AttributeListeningChannel(ZigbeeChannel):
     """Channel for attribute reports from the cluster."""
 
-    CHANNEL_NAME = CHANNEL_ATTRIBUTE
     REPORT_CONFIG = [{"attr": 0, "config": REPORT_CONFIG_DEFAULT}]
 
     def __init__(self, cluster, device):
@@ -394,15 +392,17 @@ class EventRelayChannel(ZigbeeChannel):
             )
 
 
-# pylint: disable=wrong-import-position
-from . import closures  # noqa
-from . import general  # noqa
-from . import homeautomation  # noqa
-from . import hvac  # noqa
-from . import lighting  # noqa
-from . import lightlink  # noqa
-from . import manufacturerspecific  # noqa
-from . import measurement  # noqa
-from . import protocol  # noqa
-from . import security  # noqa
-from . import smartenergy  # noqa
+# pylint: disable=wrong-import-position, import-outside-toplevel
+from . import (  # noqa: F401 isort:skip
+    closures,
+    general,
+    homeautomation,
+    hvac,
+    lighting,
+    lightlink,
+    manufacturerspecific,
+    measurement,
+    protocol,
+    security,
+    smartenergy,
+)

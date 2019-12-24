@@ -1,21 +1,21 @@
 """Provide an authentication layer for Home Assistant."""
 import asyncio
-import logging
 from collections import OrderedDict
 from datetime import timedelta
+import logging
 from typing import Any, Dict, List, Optional, Tuple, cast
 
 import jwt
 
 from homeassistant import data_entry_flow
 from homeassistant.auth.const import ACCESS_TOKEN_EXPIRATION
-from homeassistant.core import callback, HomeAssistant
+from homeassistant.core import HomeAssistant, callback
 from homeassistant.util import dt as dt_util
 
 from . import auth_store, models
 from .const import GROUP_ID_ADMIN
-from .mfa_modules import auth_mfa_module_from_config, MultiFactorAuthModule
-from .providers import auth_provider_from_config, AuthProvider, LoginFlow
+from .mfa_modules import MultiFactorAuthModule, auth_mfa_module_from_config
+from .providers import AuthProvider, LoginFlow, auth_provider_from_config
 
 EVENT_USER_ADDED = "user_added"
 EVENT_USER_REMOVED = "user_removed"
@@ -261,7 +261,7 @@ class AuthManager:
         """Enable a multi-factor auth module for user."""
         if user.system_generated:
             raise ValueError(
-                "System generated users cannot enable " "multi-factor auth module."
+                "System generated users cannot enable multi-factor auth module."
             )
 
         module = self.get_auth_mfa_module(mfa_module_id)
@@ -276,7 +276,7 @@ class AuthManager:
         """Disable a multi-factor auth module for user."""
         if user.system_generated:
             raise ValueError(
-                "System generated users cannot disable " "multi-factor auth module."
+                "System generated users cannot disable multi-factor auth module."
             )
 
         module = self.get_auth_mfa_module(mfa_module_id)
@@ -320,7 +320,7 @@ class AuthManager:
 
         if user.system_generated != (token_type == models.TOKEN_TYPE_SYSTEM):
             raise ValueError(
-                "System generated users can only have system type " "refresh tokens"
+                "System generated users can only have system type refresh tokens"
             )
 
         if token_type == models.TOKEN_TYPE_NORMAL and client_id is None:
@@ -330,7 +330,7 @@ class AuthManager:
             token_type == models.TOKEN_TYPE_LONG_LIVED_ACCESS_TOKEN
             and client_name is None
         ):
-            raise ValueError("Client_name is required for long-lived access " "token")
+            raise ValueError("Client_name is required for long-lived access token")
 
         if token_type == models.TOKEN_TYPE_LONG_LIVED_ACCESS_TOKEN:
             for token in user.refresh_tokens.values():
